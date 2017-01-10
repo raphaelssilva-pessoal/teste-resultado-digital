@@ -1,1 +1,4 @@
-lista de favoritos
+<ul id="dropdown1" class="dropdown-content">
+  <li *ngFor="let favorito of favoritos"><a href="javascript:void(0)">{{favorito.volumeInfo.title}}</a></li>  
+</ul>
+<a class="dropdown-button" href="javascript:void(0)" data-activates="dropdown1"><i class="material-icons right">star</i></a>

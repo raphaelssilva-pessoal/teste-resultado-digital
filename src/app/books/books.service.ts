@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Http, Response } from '@angular/http';
-
+import { Http, Response, URLSearchParams, QueryEncoder} from '@angular/http';
 import 'rxjs/Rx';
 
 interface Book{
@@ -16,12 +15,12 @@ export class GoogleBooksService {
      constructor (private http: Http) {}
 
      find(q : string, startIndex, maxResults){
-         let params = {}, options = {};
-         params['q'] = q;
-         params['startIndex'] = startIndex;
-         params['maxResults'] = maxResults;
+         let params = new URLSearchParams(), options = {};
+         params.set('q', q);
+         params.set('startIndex', startIndex);
+         params.set('maxResults', maxResults);
 
-         options['params'] = params;
+         options['search'] = params;
          return  this.http.get(this.urlBase, options)
          .map(this.extrairDados)
          .catch(this.handleError);
@@ -37,7 +36,7 @@ export class GoogleBooksService {
      private extrairDados(res: Response) {
         let body = res.json();     
         
-        return body.data || { };
+        return body || { };
     }
 
     private formatBook(elemento){

@@ -1,6 +1,5 @@
 <div class="row">
-    <form class="col s12">
-      <div class="row">
+    <div class="row">
         <div class="input-field col s9">
           <input id="search" type="search" class="validate" #searchIn>
           <label for="search">Palavra Chave</label>
@@ -10,19 +9,21 @@
               <i class="material-icons left">search</i>
           </a>
         </div>
-      </div>      
-    </form>
+      </div>          
     <ul class="collection" *ngIf="books">
         <li class="collection-item avatar" *ngFor="let book of books.items" >
-            <img src="images/yuna.jpg" alt="" class="circle">
-            <span class="title">Title</span>
-            <p>{{book.volumeInfo.title}}<br>
-                {{book.volumeInfo.description}}
-            </p>
-            <a href="#!" class="secondary-content">
-                <i class="material-icons">grade</i>
+            <img [src]="book.volumeInfo.imageLinks.smallThumbnail" alt="" class="circle">
+            <span class="title">{{book.volumeInfo.title}}</span>
+            <p>{{book.volumeInfo.description}}</p>
+            <a href="javascript:void(0)"  class="secondary-content" (click)="favoritar(book)">
+                <i class="medium material-icons" [ngStyle]="{'color': (isFavorito(book)?'orange':'gray')}">grade</i>
             </a>
         </li>
+    </ul>
+    <ul class="pagination" *ngIf="books">
+        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+        <li class="waves-effect" [class.active]="pagina==page.numero" *ngFor="let page of getPages(pagina, total, books.totalItems)"> <a href="javascript:void(0)" (click)="pagina=page.numero; find()">{{page.numero}}</a></li>
+        <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
     </ul>
   </div>
         

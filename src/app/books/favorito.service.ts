@@ -11,6 +11,22 @@ export class FavoritoService {
         return lista?JSON.parse(lista):[];
     }
 
+    removeFavorito(book){
+        if(this.isFavorito(book.id)){
+            let lista = localStorage.getItem(this.name);
+            if(lista){
+                let listaArray = JSON.parse(lista);
+                listaArray = this.listar().filter(element => {
+                    return element.id != book.id;
+                });
+
+                let listaJSON = listaArray? JSON.stringify(listaArray): null;
+                localStorage[this.name] = listaJSON;
+            }
+            
+        }
+    }
+
     setFavorito(book){
         if(!this.isFavorito(book.id)){
             let lista = localStorage.getItem(this.name);
@@ -28,12 +44,14 @@ export class FavoritoService {
     }
 
     isFavorito(id :String){
-        return this.getFavorito(id)?true:false;
+        let books = this.getFavorito(id);
+
+        return books != null && books.length > 0 ? true : false;        
     }
 
     getFavorito(id :String){
         return this.listar().filter(element => {
-            element.id == id;
+            return element.id == id;
         });
     }
 }

@@ -7,13 +7,15 @@ import {FavoritoService} from './favorito.service';
     templateUrl: './favorito-toolbar.component.html'
 })
 export class FavoritoToolbarComponent implements OnInit {
-    constructor(private service : FavoritoService) { }
+    constructor(private favoritoService : FavoritoService) { }
 
     favoritos = [];
 
-    ngOnInit() { }
+    ngOnInit() { 
+        this.listarFavoritos();
+    }
 
     listarFavoritos(){
-        this.favoritos = this.service.listar();
+        this.favoritos = this.favoritoService.listar();
     }
 }

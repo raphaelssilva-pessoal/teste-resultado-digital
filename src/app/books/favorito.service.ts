@@ -4,23 +4,26 @@ import { Injectable } from '@angular/core';
 export class FavoritoService {
     name = "_f";
 
+    private favoritos = [];
+
     constructor() { }
 
     listar(){
-        let lista = localStorage.getItem(this.name);
-        return lista?JSON.parse(lista):[];
+        if(!this.favoritos || this.favoritos.length == 0){
+            let lista = localStorage.getItem(this.name);
+            this.favoritos = lista?JSON.parse(lista):[];
+        }        
+        return this.favoritos;
     }
 
     removeFavorito(book){
         if(this.isFavorito(book.id)){
-            let lista = localStorage.getItem(this.name);
-            if(lista){
-                let listaArray = JSON.parse(lista);
-                listaArray = this.listar().filter(element => {
-                    return element.id != book.id;
-                });
-
-                let listaJSON = listaArray? JSON.stringify(listaArray): null;
+            if(this.favoritos){
+                var index = this.favoritos.findIndex(element => element.id == book.id ); 
+                if(index > -1){
+                    this.favoritos.splice(index, 1);
+                }                
+                let listaJSON = this.favoritos? JSON.stringify(this.favoritos): null;
                 localStorage[this.name] = listaJSON;
             }
             
@@ -29,17 +32,8 @@ export class FavoritoService {
 
     setFavorito(book){
         if(!this.isFavorito(book.id)){
-            let lista = localStorage.getItem(this.name);
-            let listaArray = [];
-            if(!lista){
-                listaArray = [];
-            }else{
-                listaArray = JSON.parse(lista);
-            }
-
-            listaArray.push(book);
-
-            localStorage[this.name] = JSON.stringify(listaArray);
+            this.favoritos.push(book);
+            localStorage[this.name] = JSON.stringify(this.favoritos);
         }
     }
 

@@ -11,6 +11,11 @@ import { MaterializeModule } from 'angular2-materialize';
 
 import { ROUTER_ROOT } from "./app.routing";
 
+import {
+  RouterModule,
+  Routes,
+} from '@angular/router';
+
 @NgModule({
   declarations: [
     AppComponent    

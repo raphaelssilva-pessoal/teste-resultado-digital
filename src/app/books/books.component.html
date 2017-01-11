@@ -13,8 +13,10 @@
     <ul class="collection" *ngIf="books">
         <li class="collection-item avatar" *ngFor="let book of books.items" >
             <img [src]="book.volumeInfo.imageLinks.smallThumbnail" alt="" class="circle">
-            <span class="title">{{book.volumeInfo.title}}</span>
-            <p>{{book.volumeInfo.description}}</p>
+            <span class="title">
+                <a href="{{'/book/'+book.id}}" [innerHTML]="book.volumeInfo.title"></a>
+            </span>
+            <p [innerHTML]="book.volumeInfo.description"></p>
             <a href="javascript:void(0)"  class="secondary-content" (click)="favoritar(book)">
                 <i class="medium material-icons" [ngStyle]="{'color': (isFavorito(book)?'orange':'gray')}">grade</i>
             </a>

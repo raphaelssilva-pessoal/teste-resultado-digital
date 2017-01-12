@@ -1,6 +1,6 @@
 <ul id="slide-out" class="side-nav">
       <li><a href="javascript:void(0)"><i class="material-icons right">star</i> Favoritos </a></li>
       <li><div class="divider"></div></li>
-      <li *ngFor="let favorito of favoritos"><a class="waves-effect" href="{{'/book/'+favorito.id}}">{{favorito.volumeInfo.title}}</a></li>  
+      <li *ngFor="let favorito of favoritos"><p class="waves-effect"> <i class="material-icons left" (click)="removeFavorito(favorito)" >close</i> <a class=" truncate" href="{{'/book/'+favorito.id}}" >{{favorito.volumeInfo.title}}</a></p></li>  
 </ul>
 <a href="#" #selectElem data-activates="slide-out" class="navBtn"><i class="material-icons right">star</i> Favoritos </a>

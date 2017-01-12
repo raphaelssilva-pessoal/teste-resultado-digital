@@ -31,4 +31,9 @@ export class FavoritoToolbarComponent implements OnInit, AfterViewInit  {
     listarFavoritos(){
         this.favoritos = this.favoritoService.listar();
     }
+
+    removeFavorito(favorito){
+        this.favoritoService.removeFavorito(favorito);
+        this.listarFavoritos();
+    }
 }

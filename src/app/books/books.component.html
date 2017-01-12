@@ -12,7 +12,7 @@
       </div>          
     <ul class="collection" *ngIf="books">
         <li class="collection-item avatar" *ngFor="let book of books.items" >
-            <img [src]="book.volumeInfo.imageLinks.smallThumbnail" alt="" class="circle">
+            <img [src]="book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : ''" alt="" class="circle">
             <span class="title">
                 <a href="{{'/book/'+book.id}}" [innerHTML]="book.volumeInfo.title"></a>
             </span>
@@ -22,10 +22,10 @@
             </a>
         </li>
     </ul>
-    <ul class="pagination" *ngIf="books">
+    <!--<ul class="pagination" *ngIf="books">
         <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
         <li class="waves-effect" [class.active]="pagina==page.numero" *ngFor="let page of getPages(pagina, total, books.totalItems)"> <a href="javascript:void(0)" (click)="pagina=page.numero; find()">{{page.numero}}</a></li>
         <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-    </ul>
+    </ul>-->
   </div>
         

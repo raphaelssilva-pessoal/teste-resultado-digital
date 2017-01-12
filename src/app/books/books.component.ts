@@ -4,6 +4,7 @@ import { GoogleBooksService } from "./books.service";
 
 import { FavoritoService } from "./favorito.service";
 
+declare  var $:any;
 
 @Component({
     selector: 'books',
@@ -15,6 +16,7 @@ export class BooksComponent implements OnInit {
     books;
     pagina;
     total;
+    atualScroll;
 
     ngOnInit() { }
 
@@ -47,16 +49,21 @@ export class BooksComponent implements OnInit {
     }
 
     search(q) {
+        let vm = this;
         this.pagina = 0;
         this.total = this.total ? this.total : 10;
         this.q = q;
-        this.find();
+        this.find().subscribe(
+            books => {
+                vm.books = books;
+            }
+            );
     }
 
     private find() {
         let vm = this;
 
-        this.googleBooksService.find(this.q, this.pagina * this.total, this.total).map(function (dados) {
+        return this.googleBooksService.find(this.q, this.pagina * this.total, this.total).map(function (dados) {
             if (dados && dados["items"]) {
                 for (let book of dados["items"]) {
 
@@ -69,11 +76,7 @@ export class BooksComponent implements OnInit {
                 }
             }
             return dados;
-        }).subscribe(
-            books => {
-                vm.books = books;
-            }
-            );
+        });
     }
 
     favoritar(book) {
@@ -89,7 +92,7 @@ export class BooksComponent implements OnInit {
         return this.favoritoService.isFavorito(book.id);
     }
 
-    getPages(pageAtual, totalPorPage, length) {
+    /*getPages(pageAtual, totalPorPage, length) {
         let pages = [];
         for (let i = 0; i < length; i++) {
             if ((i + 1) % totalPorPage == 0) {
@@ -100,6 +103,22 @@ export class BooksComponent implements OnInit {
             }
         }
         return pages;
+    }*/
+
+    onScroll(event) {
+        let vm = this;
+        if (this.books.totalItems > (this.pagina+1*this.total ) && $(document).height() - $(window).height() == $(window).scrollTop() && this.atualScroll != $(window).scrollTop()) {
+            this.atualScroll = $(window).scrollTop()
+            
+            ++this.pagina
+            this.find().subscribe(
+            books => {
+                console.log(vm.books);
+                vm.books.items = vm.books.items.concat(books["items"]);
+            }
+            );
+        }
     }
+
 
 }
